@@ -3,12 +3,13 @@ name: Docker Image CI
 on: [push]
 
 jobs:
-
   ci:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-
+    - name: Login to DockerHub Registry
+      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin    
+      
     - name: Build e Push no Azure Container Registry
       run: |
         docker build . --file Dockerfile --tag ferreirafernandar/university-devops:latest
