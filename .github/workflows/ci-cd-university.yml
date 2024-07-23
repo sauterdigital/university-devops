@@ -15,7 +15,7 @@ jobs:
     - name: build and push docker image to registry
       uses: docker/build-push-action@v5
       with:
-        context: ./
+        context: ./Dockerfile
         push: true
         tags: ferreirafernandar/university-devops:latest
 
