@@ -12,11 +12,12 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     
-    - name: Build e Push no DockerHub Registry
-      run: |
-        docker build . --file Dockerfile --tag ferreirafernandar/university-devops:latest
-        docker tag ferreirafernandar/university-devops:latest ferreirafernandar/university-devops:$(date +%s)
-        docker push ferreirafernandar/university-devops
+    - name: build and push docker image to registry
+      uses: docker/build-push-action@v5
+      with:
+        context: ./
+        push: true
+        tags: ferreirafernandar/university-devops:latest
 
   cd:
     runs-on: ubuntu-latest
