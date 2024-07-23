@@ -6,11 +6,16 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Login to DockerHub Registry
-      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin    
-      
-    - name: Build e Push no Azure Container Registry
+    - name: Check out the repo
+      uses: actions/checkout@v4
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    
+    - name: Build e Push no DockerHub Registry
       run: |
         docker build . --file Dockerfile --tag ferreirafernandar/university-devops:latest
         docker tag ferreirafernandar/university-devops:latest ferreirafernandar/university-devops:$(date +%s)
@@ -20,6 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Build e Push no Azure Container Registry
+    - name: Build e Push no DockerHub Registry
       run: |
         docker run ferreirafernandar/university-devops:latest        
