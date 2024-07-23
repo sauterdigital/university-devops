@@ -1,0 +1,21 @@
+name: Docker Image CI
+
+on: [push]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build University DevOps
+      run: |
+        docker build . --file Dockerfile --tag university-devops:latest
+        docker run university-devops:latest
+
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run University DevOps
+      run: |
+        docker run university-devops:latest        
