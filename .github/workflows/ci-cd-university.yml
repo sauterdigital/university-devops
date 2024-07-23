@@ -3,11 +3,22 @@ name: Docker Image CI
 on: [push]
 
 jobs:
+
   ci:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Build University DevOps
+
+    - name: Build e Push no Azure Container Registry
       run: |
-        docker build . --file Dockerfile --tag university-devops:latest
-        docker run university-devops:latest
+        docker build . --file Dockerfile --tag ferreirafernandar/university-devops:latest
+        docker tag ferreirafernandar/university-devops:latest ferreirafernandar/university-devops:$(date +%s)
+        docker push ferreirafernandar/university-devops
+
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build e Push no Azure Container Registry
+      run: |
+        docker run ferreirafernandar/university-devops:latest        
